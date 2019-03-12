@@ -100,6 +100,20 @@
         <div id="{{::fieldEntry}}" data-ng-include="'views/partials/rfile_upload_button.html'"></div>
       </div>
       <div data-ng-switch-when="fieldgroup">
+        <div data-ng-if="field.attrs.multimedia.value">
+          <div data-ng-switch="field.attrs.multimedia_type.value">
+          <div data-ng-switch-when="image">
+            <img src="{{field.attrs.multimedia_url.value}}" />
+          </div>
+          <div data-ng-switch-when="audio">
+            <audio controls>
+              <source src="{{field.attrs.multimedia_url.value}}" type="audio/mpeg" />
+            </audio>
+          </div>
+          <div data-ng-switch-when="video">
+            <video controls><source src="{{field.attrs.multimedia_url.value}}" type="video/mp4"></video>
+          </div>
+        </div>
         <div data-ng-include="'views/submission/form.html'"></div>
       </div>
       <div data-ng-switch-default data-ng-class="{'has-error': entry.required_status}" data-ng-model-options="{'debounce':250}">
