@@ -780,7 +780,6 @@ class _InternalTip(Model):
     progressive = Column(Integer, default=0, nullable=False)
     https = Column(Boolean, default=False, nullable=False)
     score = Column(Integer, default=0, nullable=False)
-    total_score = Column(Integer, default=0, nullable=False)
     expiration_date = Column(DateTime, default=datetime_never, nullable=False)
     enable_two_way_comments = Column(Boolean, default=True, nullable=False)
     enable_two_way_messages = Column(Boolean, default=True, nullable=False)
