@@ -99,9 +99,8 @@
       <div data-ng-switch-when="fileupload">
         <div id="{{::fieldEntry}}" data-ng-include="'views/partials/rfile_upload_button.html'"></div>
       </div>
-      <div data-ng-switch-when="fieldgroup">
-        <div data-ng-if="field.attrs.multimedia.value">
-          <div data-ng-switch="field.attrs.multimedia_type.value">
+      <div data-ng-switch-when="fieldgroup" data-ng-if="field.attrs.multimedia.value">
+        <div data-ng-switch="field.attrs.multimedia_type.value">
           <div data-ng-switch-when="image">
             <img src="{{field.attrs.multimedia_url.value}}" />
           </div>
