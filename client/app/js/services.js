@@ -290,7 +290,7 @@ factory("Access", ["$q", "Authentication", function ($q, Authentication) {
         return count;
       };
 
-      var setCurrentContextReceivers = function(context_id) {
+      self.setContextReceivers = function(context_id) {
         self.context = $rootScope.contexts_by_id[context_id];
 
         self.selected_receivers = {};
@@ -319,7 +319,7 @@ factory("Access", ["$q", "Authentication", function ($q, Authentication) {
        *
        * */
       self.create = function(context_id, cb) {
-        setCurrentContextReceivers(context_id);
+        self.setContextReceivers(context_id);
 
         self._submission = new SubmissionResource({
           context_id: self.context.id,
@@ -1433,6 +1433,8 @@ factory("AdminUtils", ["AdminContextResource", "AdminQuestionnaireResource", "Ad
           if(!scope.questionnaire) {
             return;
           }
+
+          scope.submission.setContextReceivers(scope.context.id);
 
           angular.forEach(scope.questionnaire.steps, function(step) {
             if (self.isFieldTriggered(null, step, scope.answers, scope.total_score)) {
