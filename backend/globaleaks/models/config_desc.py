@@ -108,9 +108,9 @@ ConfigDescriptor = {
     u'wizard_done': Bool(default=False),
 
     u'disable_submissions': Bool(default=False),
-    u'disable_privacy_badge': Bool(default=False),
+    u'disable_privacy_badge': Bool(default=True),
     u'enable_disclaimer': Bool(default=False),
-    u'disable_key_code_hint': Bool(default=False),
+    u'disable_key_code_hint': Bool(default=True),
     u'disable_donation_panel': Bool(default=False),
 
     u'counter_submissions': Int(default=0),

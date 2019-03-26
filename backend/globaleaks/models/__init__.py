@@ -390,7 +390,7 @@ class _Context(Model):
 
     tid = Column(Integer, default=1, nullable=False)
 
-    show_steps_navigation_interface = Column(Boolean, default=True, nullable=False)
+    show_steps_navigation_interface = Column(Boolean, default=False, nullable=False)
     show_small_receiver_cards = Column(Boolean, default=False, nullable=False)
     show_recipients_details = Column(Boolean, default=False, nullable=False)
     allow_recipients_selection = Column(Boolean, default=False, nullable=False)
@@ -398,7 +398,7 @@ class _Context(Model):
     select_all_receivers = Column(Boolean, default=True, nullable=False)
     enable_comments = Column(Boolean, default=True, nullable=False)
     enable_messages = Column(Boolean, default=False, nullable=False)
-    enable_two_way_comments = Column(Boolean, default=True, nullable=False)
+    enable_two_way_comments = Column(Boolean, default=False, nullable=False)
     enable_two_way_messages = Column(Boolean, default=True, nullable=False)
     enable_attachments = Column(Boolean, default=True, nullable=False)
     enable_rc_to_wb_files = Column(Boolean, default=False, nullable=False)
@@ -408,7 +408,7 @@ class _Context(Model):
     recipients_clarification = Column(JSON, default=dict, nullable=False)
     status_page_message = Column(JSON, default=dict, nullable=False)
     show_receivers_in_alphabetical_order = Column(Boolean, default=True, nullable=False)
-    enable_scoring_system = Column(Boolean, default=False, nullable=False)
+    enable_scoring_system = Column(Boolean, default=True, nullable=False)
     score_threshold_high = Column(Integer, default=0, nullable=False)
     score_threshold_medium = Column(Integer, default=0, nullable=False)
     score_receipt_text_custom = Column(Boolean, default=False, nullable=False)
@@ -899,6 +899,35 @@ class _Questionnaire(Model):
     @declared_attr
     def __table_args__(self):
         return (ForeignKeyConstraint(['tid'], ['tenant.id'], ondelete='CASCADE', deferrable=True, initially='DEFERRED'),)
+
+
+class _Receiver(Model):
+    """
+    This model keeps track of receivers settings.
+    """
+    __tablename__ = 'receiver'
+
+    id = Column(UnicodeText(36), primary_key=True, default=uuid4, nullable=False)
+
+    configuration = Column(UnicodeText, default=u'default', nullable=False)
+    can_delete_submission = Column(Boolean, default=False, nullable=False)
+    can_postpone_expiration = Column(Boolean, default=False, nullable=False)
+    can_grant_permissions = Column(Boolean, default=True, nullable=False)
+
+    @declared_attr
+    def __table_args__(self):
+        return (ForeignKeyConstraint(['id'], ['user.id'], ondelete='CASCADE', deferrable=True, initially='DEFERRED'),
+                CheckConstraint(self.configuration.in_(['default', 'forcefully_selected', 'unselectable'])))
+
+    unicode_keys = ['configuration']
+
+    bool_keys = [
+        'can_delete_submission',
+        'can_postpone_expiration',
+        'can_grant_permissions',
+    ]
+
+    list_keys = ['contexts']
 
 
 class _ReceiverContext(Model):
