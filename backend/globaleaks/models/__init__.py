@@ -669,42 +669,6 @@ class _FieldAnswerGroup(Model):
         return (ForeignKeyConstraint(['fieldanswer_id'], ['fieldanswer.id'], ondelete='CASCADE', deferrable=True, initially='DEFERRED'),)
 
 
-class OptionTriggerField(Model):
-    __tablename__ = 'optiontriggerfield'
-
-    option_id = Column(UnicodeText(36), primary_key=True, nullable=False)
-    field_id = Column(UnicodeText(36), primary_key=True, nullable=False)
-
-    @declared_attr
-    def __table_args__(self):
-        return (ForeignKeyConstraint(['option_id'], ['option.id'], ondelete='CASCADE', deferrable=True, initially='DEFERRED'),
-                ForeignKeyConstraint(['field_id'], ['field.id'], ondelete='CASCADE', deferrable=True, initially='DEFERRED'))
-
-
-class OptionTriggerStep(Model):
-    __tablename__ = 'optiontriggerstep'
-
-    option_id = Column(UnicodeText(36), primary_key=True, nullable=False)
-    field_id = Column(UnicodeText(36), primary_key=True, nullable=False)
-
-    @declared_attr
-    def __table_args__(self):
-        return (ForeignKeyConstraint(['option_id'], ['option.id'], ondelete='CASCADE', deferrable=True, initially='DEFERRED'),
-                ForeignKeyConstraint(['field_id'], ['field.id'], ondelete='CASCADE', deferrable=True, initially='DEFERRED'))
-
-
-class OptionTriggerReceiver(Model):
-    __tablename__ = 'optiontriggerreceiver'
-
-    option_id = Column(UnicodeText(36), primary_key=True, nullable=False)
-    receiver_id = Column(UnicodeText(36), primary_key=True, nullable=False)
-
-    @declared_attr
-    def __table_args__(self):
-        return (ForeignKeyConstraint(['option_id'], ['option.id'], ondelete='CASCADE', deferrable=True, initially='DEFERRED'),
-                ForeignKeyConstraint(['receiver_id'], ['receiver.id'], ondelete='CASCADE', deferrable=True, initially='DEFERRED'))
-
-
 class _FieldOption(Model):
     __tablename__ = 'fieldoption'
 
@@ -723,6 +687,42 @@ class _FieldOption(Model):
     @declared_attr
     def __table_args__(self):
         return (ForeignKeyConstraint(['field_id'], ['field.id'], ondelete='CASCADE', deferrable=True, initially='DEFERRED'),)
+
+
+class FieldOptionTriggerField(Model):
+    __tablename__ = 'fieldoptiontriggerfield'
+
+    option_id = Column(UnicodeText(36), primary_key=True, nullable=False)
+    field_id = Column(UnicodeText(36), primary_key=True, nullable=False)
+
+    @declared_attr
+    def __table_args__(self):
+        return (ForeignKeyConstraint(['option_id'], ['option.id'], ondelete='CASCADE', deferrable=True, initially='DEFERRED'),
+                ForeignKeyConstraint(['field_id'], ['field.id'], ondelete='CASCADE', deferrable=True, initially='DEFERRED'))
+
+
+class FieldOptionTriggerReceiver(Model):
+    __tablename__ = 'fieldoptiontriggerreceiver'
+
+    option_id = Column(UnicodeText(36), primary_key=True, nullable=False)
+    receiver_id = Column(UnicodeText(36), primary_key=True, nullable=False)
+
+    @declared_attr
+    def __table_args__(self):
+        return (ForeignKeyConstraint(['option_id'], ['option.id'], ondelete='CASCADE', deferrable=True, initially='DEFERRED'),
+                ForeignKeyConstraint(['receiver_id'], ['receiver.id'], ondelete='CASCADE', deferrable=True, initially='DEFERRED'))
+
+
+class FieldOptionTriggerStep(Model):
+    __tablename__ = 'fieldoptiontriggerstep'
+
+    option_id = Column(UnicodeText(36), primary_key=True, nullable=False)
+    field_id = Column(UnicodeText(36), primary_key=True, nullable=False)
+
+    @declared_attr
+    def __table_args__(self):
+        return (ForeignKeyConstraint(['option_id'], ['option.id'], ondelete='CASCADE', deferrable=True, initially='DEFERRED'),
+                ForeignKeyConstraint(['field_id'], ['field.id'], ondelete='CASCADE', deferrable=True, initially='DEFERRED'))
 
 
 class _File(Model):
