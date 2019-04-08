@@ -669,6 +669,42 @@ class _FieldAnswerGroup(Model):
         return (ForeignKeyConstraint(['fieldanswer_id'], ['fieldanswer.id'], ondelete='CASCADE', deferrable=True, initially='DEFERRED'),)
 
 
+class OptionTriggerField(Model):
+    __tablename__ = 'optiontriggerfield'
+
+    option_id = Column(UnicodeText(36), primary_key=True, nullable=False)
+    field_id = Column(UnicodeText(36), primary_key=True, nullable=False)
+
+    @declared_attr
+    def __table_args__(self):
+        return (ForeignKeyConstraint(['option_id'], ['option.id'], ondelete='CASCADE', deferrable=True, initially='DEFERRED'),
+                ForeignKeyConstraint(['field_id'], ['field.id'], ondelete='CASCADE', deferrable=True, initially='DEFERRED'))
+
+
+class OptionTriggerStep(Model):
+    __tablename__ = 'optiontriggerstep'
+
+    option_id = Column(UnicodeText(36), primary_key=True, nullable=False)
+    field_id = Column(UnicodeText(36), primary_key=True, nullable=False)
+
+    @declared_attr
+    def __table_args__(self):
+        return (ForeignKeyConstraint(['option_id'], ['option.id'], ondelete='CASCADE', deferrable=True, initially='DEFERRED'),
+                ForeignKeyConstraint(['field_id'], ['field.id'], ondelete='CASCADE', deferrable=True, initially='DEFERRED'))
+
+
+class OptionTriggerReceiver(Model):
+    __tablename__ = 'optiontriggerreceiver'
+
+    option_id = Column(UnicodeText(36), primary_key=True, nullable=False)
+    receiver_id = Column(UnicodeText(36), primary_key=True, nullable=False)
+
+    @declared_attr
+    def __table_args__(self):
+        return (ForeignKeyConstraint(['option_id'], ['option.id'], ondelete='CASCADE', deferrable=True, initially='DEFERRED'),
+                ForeignKeyConstraint(['receiver_id'], ['receiver.id'], ondelete='CASCADE', deferrable=True, initially='DEFERRED'))
+
+
 class _FieldOption(Model):
     __tablename__ = 'fieldoption'
 
@@ -679,21 +715,14 @@ class _FieldOption(Model):
     label = Column(JSON, nullable=False)
     score_points = Column(Integer, default=0, nullable=False)
     score_type = Column(Integer, default=0, nullable=False)
-    trigger_field = Column(UnicodeText(36), nullable=True)
-    trigger_step = Column(UnicodeText(36), nullable=True)
-    trigger_receiver = Column(JSON, default=list, nullable=True)
 
     unicode_keys = ['field_id']
     int_keys = ['presentation_order', 'score_type', 'score_points']
-    json_keys = ['trigger_receiver']
     localized_keys = ['label']
-    optional_references = ['trigger_field', 'trigger_step']
 
     @declared_attr
     def __table_args__(self):
-        return (ForeignKeyConstraint(['field_id'], ['field.id'], ondelete='CASCADE', deferrable=True, initially='DEFERRED'),
-                ForeignKeyConstraint(['trigger_field'], ['field.id'], ondelete='SET NULL', deferrable=True, initially='DEFERRED'),
-                ForeignKeyConstraint(['trigger_step'], ['step.id'], ondelete='SET NULL', deferrable=True, initially='DEFERRED'))
+        return (ForeignKeyConstraint(['field_id'], ['field.id'], ondelete='CASCADE', deferrable=True, initially='DEFERRED'),)
 
 
 class _File(Model):
